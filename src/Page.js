@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import pageQueries from './Page.queries'
 
-export const Page = ({company, loading}) => {
+export const Page = ({books, loading}) => {
   if (loading) {
     return <span>Loading data...</span>
   }
@@ -10,18 +10,20 @@ export const Page = ({company, loading}) => {
   return (
     <table>
       <tr>
-        <th>COMPANY NAME</th>
-        <th>STAGE</th>
-        <th>SECTOR</th>
-        <th>INVESTMENT SIZE</th>
+        <th>BOOK NAME</th>
+        <th>AUTHOR</th>
+        <th>YEAR</th>
+        <th>RATING</th>
+        <th>GENRES</th>
       </tr>
       {
-        company.map((company, i) =>
+        books.map((book, i) =>
           <tr key={i}>
-            <td>{company.name}</td>
-            <td>{company.stage}</td>
-            <td>{company.sector}</td>
-            <td>{company.investmentSize}</td>
+            <td>{book.title}</td>
+            <td>{book.author.name} {book.author.last_name}</td>
+            <td>{book.year}</td>
+            <td>{book.rating} / 10</td>
+            <td>{book.genres.join(', ')}</td>
           </tr>
         )
       }
@@ -31,7 +33,7 @@ export const Page = ({company, loading}) => {
 
 Page.propTypes = {
   loading: PropTypes.bool,
-  company: PropTypes.array
+  books: PropTypes.array
 }
 
 export default pageQueries(Page)

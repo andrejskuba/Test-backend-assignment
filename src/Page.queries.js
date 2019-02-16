@@ -1,29 +1,53 @@
 import gql from 'graphql-tag'
 import {graphql, compose} from 'react-apollo'
 
-const getCompanies = gql`
-  query getCompanies {
-    company {
-      name
-      stage
-      sector
-      investmentSize
+const getBooks = gql`
+  query getBooks {
+    books {
+      title
+      author {
+        id
+        name
+        last_name
+      }
+      year
+      rating
+      genres
     }
   }`
 
-const addCompany = gql`
-  mutation ($name: String!, $stage: String!, $sector: String!, $investmentSize: Int!) {
-    addCompany(name: $name, stage: $stage, sector: $sector, investmentSize: $investmentSize) {
-      name
-      stage
-      sector
-      investmentSize
+const addBook = gql`
+  mutation ($title: String!, $author: String!, $year: Int!) {
+    addBook(title: $title, author: $author, year: $year) {
+      title
+      author
+      year
+    }
+  }`
+
+const updateBook = gql`
+  mutation ($id: String!, $title: String!, $author: String!, $year: Int!) {
+    updateBook(id: $id, title: $title, author: $author, year: $year) {
+      title
+      author
+      year
+    }
+  }`
+
+const deleteBook = gql`
+  mutation ($id: String!) {
+    deleteBook(id: $id) {
+      title
+      author
+      year
     }
   }`
 
 export default compose(
-  graphql(getCompanies, {
+  graphql(getBooks, {
     props: ({ownProps, data}) => data,
   }),
-  graphql(addCompany, {name: 'addCompany'}),
+  graphql(addBook, {name: 'addBook'}),
+  graphql(updateBook, {name: 'updateBook'}),
+  graphql(deleteBook, {name: 'deleteBook'}),
 )
